@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { PROVEEDOR_ENDPOINT } from '../../Helpers/endpoints';
 import Boton from "../../components/Botones/botonEditarProv";
+import BotonVis from "../../components/Botones/botonVisProv";
+
 const columns = [
   {
     name: "Nombre",
@@ -58,7 +60,12 @@ export default function Proveedor() {
       const data = response.data;
       console.log(response.data);
       data.forEach(da => {
-        da.acciones = <Boton id={da.id}></Boton>;
+        da.acciones =
+        <div className='d-inline-flex'>
+          <Boton id={da.id}></Boton>
+          <BotonVis id={da.id} ></BotonVis>
+          
+          </div>
       });
       
       setfetching(false);

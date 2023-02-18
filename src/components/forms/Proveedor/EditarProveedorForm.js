@@ -5,30 +5,28 @@ import { PROVEEDORID_ENDPOINT } from "../../../Helpers/endpoints";
 import { useNavigate } from "react-router";
 import Select from 'react-select';
 export default function EditarProveedorForm({ errors, onSubmitCallback, id }) {
-    const [estadoProv, setEstado] = useState(id);
+    const [estadoProv, setEstado] = useState("");
     const [nombreProv, setNombre] = useState("");
     const [telefonoProv, setTelefono] = useState("");
     const [descripcionProv, setDescripcion] = useState("");
     const [documentoProv, setDocumento] = useState("");
     const [direccionProv, setDireccion] = useState("");
     const [emailProv, setEmail] = useState("");
-    const [proveedorActual, setProveedorActual] = useState({});
-    const data = {};
+    
     const listOption = 
     [
         { label : "ACTIVO", value : 1}, 
         { label : "INACTIVO", value : 0}
     ];
     const history = useNavigate();
-    const [listOptionCate, setOptionCate] = useState([]);
-    const [selectCat, setSelectCat] = useState([]);
+   
     const [selectEst, setSelectEst] = useState([]);
     var aux2 = {};
     useEffect( () => {
         axios.get(PROVEEDORID_ENDPOINT+id).then(response => {
             const data = response.data;
             console.log(data);
-            setProveedorActual(data);
+           
             setNombre(data.nombre);
             setTelefono(data.telefono);
             setDescripcion(data.descripcion);
@@ -37,11 +35,14 @@ export default function EditarProveedorForm({ errors, onSubmitCallback, id }) {
             setEmail(data.email);
             setEstado(data.estado);
             if(data.estado === "ACTIVO"){
-              aux2 = {value: response.data.estado, label:"ACTIVO"};
+              aux2 = {label:"ACTIVO",value: 1};
             }else{
-                aux2 = {value: response.data.estado, label:"INACTIVO"};
+                aux2 = {value:0, label:"INACTIVO"};
             }
+            
             setSelectEst(aux2);
+            console.log(selectEst);
+            console.log(aux2);
         }).catch(e => {
             console.error(e);
         })
